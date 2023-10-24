@@ -2,4 +2,4 @@
 
 ## Table of Contents
 
-### Bash
+1. Bash
