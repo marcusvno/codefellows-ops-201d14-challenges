@@ -2,5 +2,5 @@
 
 ## Table of Contents
 ### Module 01 
-1. Bash
-2. Other Stuff
+1. [Hello World!](https://github.com/marcusvno/codefellows-ops-challenges/blob/main/201-ops/helloworld.sh) (bash script)
+
