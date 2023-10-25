@@ -6,17 +6,33 @@
 # Purpose:                      Prints the login history of this system. Repeat 3x.
 
 # Declaration of variables
-loginHistory(){
-   last
-   echo "This is the login history."
-}
 # Declaration of functions
+loginHistory(){
+  last
+  echo "This is the login history."
+	echo #line break
+}
+
+searchHistory(){
+	read -p "Filter for a User? (y/n) " filterResponse
+	
+	if [[ $filterResponse == "y" || $filterResponse == "Y" ]]; then
+			read -p "Enter username: " searchUser
+			echo "Filtering for $searchUser : "
+			echo # line break
+			last | grep "$searchUser"
+		else 
+			echo "Filter canceled."
+	fi
+
+}
 
 
 # Main
 
-loginHistory
-loginHistory
-loginHistory
+for i in {1,2,3}; do
+	loginHistory
+done
 
+searchHistory
 # End
