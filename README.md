@@ -3,6 +3,6 @@
 ## Table of Contents
 ### 201 Ops - Foundation
 #### Module 01
-1. [Hello World!](https://github.com/marcusvno/codefellows-ops-challenges/blob/main/201-ops/helloworld.sh)
-2. [Functions](/201-ops/functions.sh)
-
+1. [Hello World!](/201-ops/01_helloworld.sh)
+2. [Functions](/201-ops/02_functions.sh)
+3. [Arrays](/201-ops/03_arrays.sh)
