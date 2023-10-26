@@ -36,6 +36,6 @@ multiDir
 # End
 
 # Citations : 
-# For the declaring an empty array https://stackoverflow.com/questions/18921350/shell-script-correct-way-to-declare-an-empty-array
+# For the syntax in declaring an empty array https://stackoverflow.com/questions/18921350/shell-script-correct-way-to-declare-an-empty-array
 # Idea of using a for loop in the style of C : Mike Sineiro
 # Syntax for C-style for loop: https://www.geeksforgeeks.org/bash-scripting-for-loop/

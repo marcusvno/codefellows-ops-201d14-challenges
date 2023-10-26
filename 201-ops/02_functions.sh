@@ -36,3 +36,6 @@ done
 
 searchHistory
 # End
+
+# Citations
+# For user input: https://ryanstutorials.net/bash-scripting-tutorial/bash-input.php
