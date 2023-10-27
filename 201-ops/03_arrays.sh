@@ -20,14 +20,14 @@ multiDir(){
 
   read -p "Would you like to add a README.md to the folders (y/n): " readmeAnswer
 
-  if [[ $readmeAnswer == "y" || $readmeAnswer == "Y" ]]; then
-			for ((i=0; i<=(numDir-1); i++));
-      do
-        touch ${dirArray[i]}/README.md
-        echo "Adding README.md to" ${dirArray[i]}
-      done
-		else 
-			echo "README.me not added."
+	if [[ $readmeAnswer == "y" || $readmeAnswer == "Y" ]]; then
+		for ((i=0; i<=(numDir-1); i++));
+    do
+    	touch ${dirArray[i]}/README.md
+      echo "Adding README.md to" ${dirArray[i]}
+    done
+	else 
+		echo "README.me not added."
 	fi
 }
 
