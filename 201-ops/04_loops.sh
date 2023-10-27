@@ -13,8 +13,15 @@ kill_process(){
   while :
   do
     ps aux
+    echo #line break
     read -p "Enter PID: " process_id
     kill -9 $process_id
+    read -p "Continue? (y/n): " continue_killing
+
+    if [[ $continue_killing == "n" || $continue_killing == "N" ]]; then
+      break
+    fi
+
   done
 }
 
