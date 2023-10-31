@@ -73,7 +73,7 @@ function fileCheck(){
   read -p " Is the file in the current directory: (y/n) " currentDir
 
   if [[ $currentDir == 'y' || $currentDir == 'Y' ]]; then
-    read -p " Enter filename1: " pwdFile
+    read -p " Enter filename: " pwdFile
     fullpath=$(realpath "$pwdFile")
     
     echo
@@ -88,7 +88,7 @@ function fileCheck(){
   elif [[ $currentDir == 'n' || $currentDir == 'N' ]]; then
     read -p " Enter directory (use absolute path): " pathDir
     dirFileArray+=("$pathDir")
-    read -p " Enter filename2: " pathFile
+    read -p " Enter filename: " pathFile
     dirFileArray+=("$pathFile")
     echo " Checking ${dirFileArray[0]}/${dirFileArray[1]}"
 
