@@ -11,9 +11,14 @@
 menuChoice=""
 
 # Declaration of functions
+#function menu(){
+
+#}
+
 
 function checker(){
-  while:
+
+  while :
     do
   
       echo ""
@@ -28,21 +33,76 @@ function checker(){
 
       
       case $menuChoice in
-        1) read -p " Enter directory: " dirName
-          if [ -d $dirName ]; then
-            fullpath=realpath $dirName
-            echo
-            echo " Checking if $fullpath exists."
-            echo " Directory exists."
-            echo
-          fi
-          ;;
-        3) break
+        1) dirCheck;;
+        2) fileCheck;;
+        3) break;;
+        *) echo " Invalid choice";;
       esac
-                
+
+      read -p " Press ENTER to return to menu."
     done
 
   }
+
+function dirCheck(){
+
+  read -p " Enter directory: " dirName
+  local fullpath
+
+ # Check if the first character is '~' and expand it (Citation: ChatGPT used to figure out this expansion of ~)
+  if [[ ${dirName:0:1} == "~" ]]; then
+    dirName="${HOME}${dirName:1}"
+  fi
+
+
+  if [ -d "$dirName" ]; then
+    fullpath=$(realpath "$dirName")
+    echo
+    echo " Checking $fullpath "
+    echo " Directory exists."
+    echo
+  else
+    echo " Directory does NOT exist."
+  fi
+}
+
+function fileCheck(){
+  
+  local dirFileArray
+  
+  read -p " Is the file in the current directory: (y/n) " currentDir
+
+  if [[ $currentDir == 'y' || $currentDir == 'Y' ]]; then
+    read -p " Enter filename1: " pwdFile
+    fullpath=$(realpath "$pwdFile")
+    
+    echo
+    echo " Checking $fullpath "
+    
+    if [ -f "$fullpath" ]; then  
+      echo " ...File exists."  
+    else
+      echo " ...File does NOT exist."
+    fi
+
+  elif [[ $currentDir == 'n' || $currentDir == 'N' ]]; then
+    read -p " Enter directory (use absolute path): " pathDir
+    dirFileArray+=("$pathDir")
+    read -p " Enter filename2: " pathFile
+    dirFileArray+=("$pathFile")
+    echo " Checking ${dirFileArray[0]}/${dirFileArray[1]}"
+
+    if [ -f "${dirFileArray[0]}/${dirFileArray[1]}" ]; then
+      echo " ...File exists."
+    else
+      echo " ...File does NOT exist."
+    fi
+  else
+    echo " Not a valid option."
+  fi  
+  echo       
+}
+
 
 
 # Main
