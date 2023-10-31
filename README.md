@@ -7,3 +7,4 @@
 2. [Functions](/201-ops/02_functions.sh)
 3. [Arrays](/201-ops/03_arrays.sh)
 4. [Loops](/201-ops/04_loops.sh)
+5. [Conditional Statements](/201-ops/05_conditionals.sh)
