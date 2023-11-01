@@ -15,6 +15,7 @@ function sysinfo(){
   ram_info=$(lshw -class memory 2>/dev/null | grep -A3 "description: System Memory" | grep -vE "^\*-memory|slot:")
   display_info=$(lshw -class display 2>/dev/null | grep -E 'description:|product:|physical id:|bus info:|width:|clock:|capabilities:|configuration:|resources:')
   network_info=$(lshw -class network 2>/dev/null | grep -E 'description:|product:|vender:|physical id:|bus info:|logical name:|version:|serial:|size:|capacity:|width:|clock:|capabilities:|resources:')
+  bios_info=$(dmidecode | grep -A6 "BIOS Information")
   
   displaySysInfo
   
@@ -28,6 +29,7 @@ echo -e "   CPU:\n$cpu_info\n"
 echo -e "   RAM:\n$ram_info\n"
 echo -e "   DISPLAY ADAPTER:\n$display_info\n"
 echo -e "   NETWORK ADAPTER:\n$network_info\n"
+echo -e "   $bios_info\n"
 
 
 
