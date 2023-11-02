@@ -1,7 +1,7 @@
 rem Disables the echoing of commands. Otherwise you would see things like "/set p sourcePath="
 @echo off
 
-rem When used in a batch file, setlocal enabledelayedexpansion makes changes to environment variables local to the current batch file and limits their scope.
+rem Enabled Delay Expansion delays the replacement of variables with their value until command executed ando when it is read. Setlocal ensure that this delayed expansion is only applicable to environment within this batch script.
 setlocal enabledelayedexpansion
 
 rem Prompts the user and stores the answer in the sourcePath variable.
