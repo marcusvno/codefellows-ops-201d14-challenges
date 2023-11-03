@@ -9,3 +9,5 @@
 4. [Loops](/201-ops/04_loops.sh)
 5. [Conditional Statements](/201-ops/05_conditionals.sh)
 6. [System Info & Grep](/201-ops/06_sysinfo.sh)
+7. [Annotating Batch File (Robocopy script)](/201-ops/07_robocopy.bat)
+8. [PowerShell & Logs](/201-ops/08_powershell_logs.ps1)
