@@ -32,9 +32,9 @@ Set-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStat
 
 #Remove Bloatware
 echo "Running Bloatware remover"
-#The bloatware remover in the PowerShell One-Liner repo runs an interactive GUI, which defeats the purpsoe of a fast script IMO. I've found and replaced it with the same dev's silent non-interactive debloater instead.
-#iex ((New-Object System.Net.WebClient).DownloadString('https://git.io/debloat'))
-iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Sycnex/Windows10Debloater/master/Windows10SysPrepDebloater.ps1')); Invoke-Expression "Windows10SysPrepDebloater.ps1 -Debloat -Privacy"
+iex ((New-Object System.Net.WebClient).DownloadString('https://git.io/debloat'))
+
+#An attempt to run the non-GUI silent version of the Debloater failed testing on a new VM so we've returned to the GUI version.
 
 #Enable HyperV without needing a reboot immediately after completion of the command.
 echo "Enabling HyperV (Reboot will be necessary once script is complete.)"
