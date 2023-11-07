@@ -17,7 +17,7 @@
 10. Class 10 - [System Processes](/201-ops/10_system_process.ps1)
 
 #### Module 03 - Software, Networking, Virtualization, & Cloud Computing
-11. Class 11 -
+11. Class 11 - [Automated Endpoint Configuration with PowerShell](/201-ops/11_auto_endpt_config.ps1)
 12. Class 12 -
 13. Class 13 -
 14. Class 14 - 
