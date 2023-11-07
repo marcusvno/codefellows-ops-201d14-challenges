@@ -23,6 +23,7 @@ netsh advfirewall firewall add rule name="Allow incoming ping requests IPv4" dir
 #Enable RDP connections and open the firewall
 echo "Enabled RDP connections in Registry"
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f
+echo "Opening Firewall for RDP"
 Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
 
 #Enable Network Level Authentication, an added layer of security for RDP
