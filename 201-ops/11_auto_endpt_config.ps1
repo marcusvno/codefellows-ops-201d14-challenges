@@ -28,6 +28,12 @@ reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnec
 echo "Enabled NLA for RDP connections"
 Set-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -Name "UserAuthentication" -Value 1
 
+#Remove Bloatware
+echo "Running Bloatware remover"
+#The bloatware remover in the PowerShell One-Liner repo runs an interactive GUI, which defeats the purpsoe of a fast script IMO. I've found and replaced it with the same dev's silent non-interactive debloater instead.
+#iex ((New-Object System.Net.WebClient).DownloadString('https://git.io/debloat'))
+iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Sycnex/Windows10Debloater/master/Windows10SysPrepDebloater.ps1')); Invoke-Expression "Windows10SysPrepDebloater.ps1 -Debloat -Privacy"
+
 #Enable HyperV without needing a reboot immediately after completion of the command.
 echo "Enabling HyperV (Reboot will be necessary once script is complete.)"
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All -NoRestart
@@ -36,13 +42,6 @@ Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All -NoRes
 # This has no success message or visual acknowledgment
 echo "Disabling SMBv1"
 Set-SmbServerConfiguration -EnableSMB1Protocol $false -Force
-
-#Remove Bloatware
-echo "Running Bloatware remover"
-#The bloatware remover in the PowerShell One-Liner repo runs an interactive GUI, which defeats the purpsoe of a fast script IMO. I've found and replaced it with the same dev's silent non-interactive debloater instead.
-#iex ((New-Object System.Net.WebClient).DownloadString('https://git.io/debloat'))
-iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Sycnex/Windows10Debloater/master/Windows10SysPrepDebloater.ps1')); Invoke-Expression "Windows10Debloater.ps1 -Debloat -Privacy"
-
 
 echo "Forcing a Reboot."
 Restart-Computer -Force
