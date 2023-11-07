@@ -20,9 +20,10 @@ echo "Allowing ICMP Traffic"
 netsh advfirewall firewall add rule name="Allow incoming ping requests IPv4" dir=in action=allow protocol=icmpv4 
 
 #Enable Remote management
-#Enable RDP connections
+#Enable RDP connections and open the firewall
 echo "Enabled RDP connections in Registry"
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f
+Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
 
 #Enable Network Level Authentication, an added layer of security for RDP
 echo "Enabled NLA for RDP connections"
