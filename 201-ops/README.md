@@ -20,5 +20,5 @@
 11. Class 11 - [Automated Endpoint Configuration with PowerShell](/201-ops/11_auto_endpt_config.ps1)
 12. Class 12 -
 13. Class 13 -
-14. Class 14 - 
+
 
