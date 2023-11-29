@@ -12,16 +12,16 @@ date_time=$(date +%Y-%m-%dT%H:%M:%S%Z)
 # Declaration of functions
 logs_copy(){
   cp /var/log/syslog syslog_$date_time
-  echo "File created -- syslog_$date_time"
+  echo "[$(date +%H:%M)] File created -- syslog_$date_time"
 }
 
 
 # Main
-echo "Getting current Date and Time.."
+echo "[$(date +%H:%M)] Getting current Date and Time.."
 sleep 0.5
-echo "Current Time: $date_time"
+echo "[$(date +%H:%M)] Date & Time: $date_time"
 sleep 0.5
-echo "Copying syslog to current working directory."
+echo "[$(date +%H:%M)] Copying syslog to current working directory."
 sleep 0.5
 logs_copy
 
