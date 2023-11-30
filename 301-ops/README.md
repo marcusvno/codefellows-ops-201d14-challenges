@@ -8,7 +8,7 @@
 
 1. Class 01 - None.
 2. Class 02 - [Date and Time](/301-ops/02_date_time.sh)
-3. Class 03 - []()
+3. Class 03 - [File Permissions](/301-ops/03_file_permissions.sh)
 4. Class 04 - []()
 5. Class 05 - []()
 
