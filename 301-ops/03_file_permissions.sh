@@ -12,7 +12,7 @@ read -p "Enter the permissions number: " perms
 # Declaration of functions
 change_perms(){
   cd "$directory" && chmod $perms *
-  ls -l $directory
+  ls -l
 }
 
 # Main
