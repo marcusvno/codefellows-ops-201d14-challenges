@@ -32,7 +32,7 @@ function menu(){
         2) ping_self;;
         3) ip_info;;
         4) break;;
-        *) echo " Invalid choice";;
+        *) echo "";echo "Invalid choice";echo "";;
       esac
 
       read -p " Press ENTER to return to menu."
