@@ -9,7 +9,7 @@
 1. Class 01 - None.
 2. Class 02 - [Date and Time](/301-ops/02_date_time.sh)
 3. Class 03 - [File Permissions](/301-ops/03_file_permissions.sh)
-4. Class 04 - []()
+4. Class 04 - [Conditional Menu](/301-ops/04-menus.sh)
 5. Class 05 - []()
 
 #### Module 02 - Network Infrastructure Design and Implementation
