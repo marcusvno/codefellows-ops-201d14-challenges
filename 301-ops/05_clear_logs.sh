@@ -133,13 +133,16 @@ function clear_logs() {
 
 }
 
-
+function banner(){
+  figlet "Log Killer" -f "ANSI Shadow" | lolcat --animate --speed 60
+  echo ""
+}
 
 
 # Main
 
 clear
-figlet "Log Killer" -f "ANSI Shadow" | lolcat --animate --speed 60
+banner
 dir_check
 backup_logs
 clear_logs
