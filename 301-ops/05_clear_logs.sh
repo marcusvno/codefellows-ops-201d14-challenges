@@ -139,6 +139,7 @@ function clear_logs() {
 # Main
 
 clear
+figlet "Log Killer" -f "ANSI Shadow" | lolcat --animate --speed 60
 dir_check
 backup_logs
 clear_logs
