@@ -14,7 +14,7 @@
 
 #### Module 02 - Network Infrastructure Design and Implementation
 
-6. Class 06 - []()
+6. Class 06 - [Bash in Python](/301-ops/06_bash_python.py)
 7. Class 07 - []()
 8. Class 08 - []()
 9. Class 09 - []()
