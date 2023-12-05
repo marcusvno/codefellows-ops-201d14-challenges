@@ -14,6 +14,8 @@ RESET = "\033[0m"  # Reset to default color
 
 # Declaration of functions
 def snake_bash():
+    """Function using bash commands """
+
     os.system("clear")
     os.system('figlet "Punching Snakes" -f "3d" | lolcat')
     print("\n\n")
