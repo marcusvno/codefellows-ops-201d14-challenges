@@ -43,21 +43,30 @@ time.sleep(0.5)
 os.system('figlet Planets -w 300 -f "cosmic" | lolcat')
 time.sleep(1)
 
+
+
 print(
     f'\nThe {DIM}{RED}fourth{RESET} planet of the solar system is {RED}{planets[3]}{RESET}.\n')
+
 time.sleep(0.5)
+
 print(f'The {DIM}{GREEN}sixth{RESET} through {WHITE}{DIM}tenth{RESET} planet of the {YELLOW}Sol system{RESET} are:\n')
+
 time.sleep(0.5)
+
 for i, planet in enumerate(planets[5:10]):
     color = ANSI_COLORS[i % len(ANSI_COLORS)]
     print(f' {i+int(6)}) {color}{planet}{RESET}')
     time.sleep(0.6)
 
 print(f'\n{BLINK}WARNING  WARNING  WARNING  WARNING  WARNING  WARNING  WARNING  WARNING {RESET}')
+
 time.sleep(2.5)
+
 print(f'{GREEN}\nAliens{RESET} have replaced {CYAN}{planets[6]}{RESET}!')
+
 time.sleep(0.5)
+
 planets[6] = "Onion"
 print(f'It is now an enormous {YELLOW}{planets[6]}{RESET}!')
-
 
