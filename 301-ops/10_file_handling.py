@@ -10,12 +10,10 @@ import os
 # Variables
 
 # Functions
-
-
 def user_input():
     while True:
         dir_path = input("\nEnter a directory path: ")
-        
+
         # This is the same as   if os.path.isdir(dir_path) == False
         if not os.path.isdir(dir_path):
             print("That directory path does not exist. Please try again.")
@@ -38,7 +36,7 @@ def file_manip(full_path):
 
     with open(full_path, "r") as file:
         lines = file.readlines()
-        print(f"\n{lines[0]}")
+        print(f'\n{lines[0]}')
 
     os.remove(full_path)
 
