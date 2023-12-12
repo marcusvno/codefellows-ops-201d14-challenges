@@ -42,6 +42,5 @@ if __name__ == "__main__":
         for key, value in info.items():
             print(f'{GREEN}{key}{RESET}: {value} seconds | {value / 60:.2f} mins')
             file.write(f'{key}: {value} seconds | {value / 60:.2f} mins\n')
-    
+
     file.close()
-            
