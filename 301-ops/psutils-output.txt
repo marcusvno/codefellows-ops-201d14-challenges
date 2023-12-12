@@ -1,0 +1,9 @@
+User mode Time: 5675.52 seconds | 94.59 mins
+Kernel mode Time: 14848.29 seconds | 247.47 mins
+System Idle Time: 1434070.67 seconds | 23901.18 mins
+User Priority Processes Time: 1203.05 seconds | 20.05 mins
+I/O Wait Time: 1090.1 seconds | 18.17 mins
+Servicing Hardware Interrupts Time: 0.0 seconds | 0.00 mins
+Servicing Software Interrupts Time: 160.1 seconds | 2.67 mins
+Virtualized OS Time: 0.0 seconds | 0.00 mins
+Virtual CPU for Guest OS Time: 0.0 seconds | 0.00 mins
