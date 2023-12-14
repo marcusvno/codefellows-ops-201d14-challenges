@@ -15,6 +15,12 @@ function Get-Input{
     return $null
 }
 
+#Check if OU exists, if not create it.
+$OUName = "ExampleOU"
+if (-not (Get-ADOrganizationUnit -Filter "Name -eq '$OUName'" -ErrorAction SilentlyContinue)){
+    New-ADOrganizationalUnit -Name "ExampleOU" -Path "DC=corp,DC=globexpower,DC=com"
+}
+
 # Loops through the prompts, submits to the Active Directory, and then asks if the user would like to do it again for another account. 
 do {
     $firstName = Get-Input -prompt "Enter First Name: "
@@ -25,13 +31,13 @@ do {
     $location = Get-Input -prompt "Enter Location: "
     $email = Get-Input -prompt "Enter Email: "
 
-    $OUPath = "OU=Users,DC=corp,DC=globexpower,DC=com" #In the future rewrite this as another prompt or for whatever domain the project calls for.
+    $OUPath = "OU=ExampleOU,DC=corp,DC=globexpower,DC=com" #In the future rewrite this as another prompt or for whatever domain the project calls for.
 
     New-ADUser -Name "$firstName $lastName" `
         -GivenName $firstName `
         -Surname $lastName `
         -SamAccountName ($firstName[0] + $lastName).ToLower() `
-        -UserPrincipalName "$email"
+        -UserPrincipalName "$email" `
         -Path $OUPath `
         -Title $title `
         -Department $department `
