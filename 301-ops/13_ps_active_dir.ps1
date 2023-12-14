@@ -5,34 +5,32 @@
 Import-Module ActiveDirectory
 
 # Function accepts a prompt, presents it to the user, checks if the input is empty or not. Returns empty or input. Useful for skipping questions. 
-function Get-Input{
+function Get-Input {
     param ([string]$prompt)
     Write-Host $prompt
-    $input = Read-Host
-    if (-not [string]::IsNullOrWhiteSpace($input)){
-        return $input
+    $user_input = Read-Host
+    if (-not [string]::IsNullOrWhiteSpace($user_input)) {
+        return $user_input
     }
     return $null
 }
 
-#Check if OU exists, if not create it.
-$OUName = "ExampleOU"
-if (-not (Get-ADOrganizationalUnit -Filter "Name -eq '$OUName'" -ErrorAction SilentlyContinue)){
-    New-ADOrganizationalUnit -Name "ExampleOU" -Path "DC=corp,DC=globexpower,DC=com"
-}
-
-# Loops through the prompts, submits to the Active Directory, and then asks if the user would like to do it again for another account. 
 do {
-    $firstName = Get-Input -prompt "Enter First Name: "
-    $lastName = Get-Input -prompt "Enter Last Name: "
-    $title = Get-Input -prompt "Enter Title: "
-    $department = Get-Input -prompt "Enter Department: "
-    $company = Get-Input -prompt "Enter Company: "
-    $location = Get-Input -prompt "Enter Location: "
-    $email = Get-Input -prompt "Enter Email: "
+    $firstName = Get-Input -prompt "Enter First Name"
+    $lastName = Get-Input -prompt "Enter Last Name"
+    $title = Get-Input -prompt "Enter Title"
+    $department = Get-Input -prompt "Enter Department"
+    $company = Get-Input -prompt "Enter Company"
+    $location = Get-Input -prompt "Enter Location"
+    $email = Get-Input -prompt "Enter Email"
 
-    $OUPath = "OU=ExampleOU,DC=corp,DC=globexpower,DC=com" #In the future rewrite this as another prompt or for whatever domain the project calls for.
+    # Check for the OU based on the Department
+    $OUPath = "OU=$department,DC=corp,DC=globexpower,DC=com"
+    if (-not (Get-ADOrganizationalUnit -Filter "Name -eq '$department'" -ErrorAction SilentlyContinue)) {
+        New-ADOrganizationalUnit -Name $department -Path "DC=corp,DC=globexpower,DC=com"
+    }
 
+    # User creation
     New-ADUser -Name "$firstName $lastName" `
         -GivenName $firstName `
         -Surname $lastName `
@@ -45,9 +43,8 @@ do {
         -Office $location `
         -EmailAddress $email `
         -Enabled $true `
-        -AccountPassword (ConvertTo-SecureString -AsPlainText "Solarwinds123" -Force) `
+        -AccountPassword (ConvertTo-SecureString "Solarwinds123" -AsPlainText -Force) `
         -ChangePasswordAtLogon $true
 
-    $addAnother = Get-Input -prompt "Add another user (y/n): "
-} while ($addAnother -eq "y")
-
+    $addAnother = Get-Input -prompt "Would you like to add another user? (Y/N)"
+} while ($addAnother -eq "Y")
