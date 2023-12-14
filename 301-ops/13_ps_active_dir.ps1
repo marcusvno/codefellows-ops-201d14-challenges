@@ -17,7 +17,7 @@ function Get-Input{
 
 #Check if OU exists, if not create it.
 $OUName = "ExampleOU"
-if (-not (Get-ADOrganizationUnit -Filter "Name -eq '$OUName'" -ErrorAction SilentlyContinue)){
+if (-not (Get-ADOrganizationalUnit -Filter "Name -eq '$OUName'" -ErrorAction SilentlyContinue)){
     New-ADOrganizationalUnit -Name "ExampleOU" -Path "DC=corp,DC=globexpower,DC=com"
 }
 
