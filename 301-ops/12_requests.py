@@ -5,9 +5,9 @@
 """
 
 # Import Libraries
-import requests as req
 import os
 import time
+import requests as req
 
 # Declaration of variables
 BLUE = "\033[34m"  # Blue text
