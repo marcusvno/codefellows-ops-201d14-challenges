@@ -7,8 +7,7 @@ Import-Module ActiveDirectory
 # Function accepts a prompt, presents it to the user, checks if the input is empty or not. Returns empty or input. Useful for skipping questions. 
 function Get-Input {
     param ([string]$prompt)
-    Write-Host $prompt
-    $user_input = Read-Host
+    $user_input = Read-Host -Prompt $prompt
     if (-not [string]::IsNullOrWhiteSpace($user_input)) {
         return $user_input
     }
@@ -16,13 +15,13 @@ function Get-Input {
 }
 
 do {
-    $firstName = Get-Input -prompt "ENTER FIRST NAME: "
-    $lastName = Get-Input -prompt "ENTER LAST NAME:"
-    $title = Get-Input -prompt "ENTER TITLE:"
-    $department = Get-Input -prompt "ENTER DEPARTMENT:"
-    $company = Get-Input -prompt "ENTER COMPANY:"
-    $location = Get-Input -prompt "ENTER LOCATION:"
-    $email = Get-Input -prompt "ENTER EMAIL:"
+    $firstName = Get-Input -prompt "ENTER FIRST NAME"
+    $lastName = Get-Input -prompt "ENTER LAST NAME"
+    $title = Get-Input -prompt "ENTER TITLE"
+    $department = Get-Input -prompt "ENTER DEPARTMENT"
+    $company = Get-Input -prompt "ENTER COMPANY"
+    $location = Get-Input -prompt "ENTER LOCATION"
+    $email = Get-Input -prompt "ENTER EMAIL"
 
     # Check for the OU based on the Department
     $OUPath = "OU=$department,DC=corp,DC=globexpower,DC=com"
