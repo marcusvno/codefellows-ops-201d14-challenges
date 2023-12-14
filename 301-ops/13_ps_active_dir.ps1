@@ -16,13 +16,13 @@ function Get-Input {
 }
 
 do {
-    $firstName = Get-Input -prompt "Enter First Name"
-    $lastName = Get-Input -prompt "Enter Last Name"
-    $title = Get-Input -prompt "Enter Title"
-    $department = Get-Input -prompt "Enter Department"
-    $company = Get-Input -prompt "Enter Company"
-    $location = Get-Input -prompt "Enter Location"
-    $email = Get-Input -prompt "Enter Email"
+    $firstName = Get-Input -prompt "ENTER FIRST NAME: "
+    $lastName = Get-Input -prompt "ENTER LAST NAME:"
+    $title = Get-Input -prompt "ENTER TITLE:"
+    $department = Get-Input -prompt "ENTER DEPARTMENT:"
+    $company = Get-Input -prompt "ENTER COMPANY:"
+    $location = Get-Input -prompt "ENTER LOCATION:"
+    $email = Get-Input -prompt "ENTER EMAIL:"
 
     # Check for the OU based on the Department
     $OUPath = "OU=$department,DC=corp,DC=globexpower,DC=com"
