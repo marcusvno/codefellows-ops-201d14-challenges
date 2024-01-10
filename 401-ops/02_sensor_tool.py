@@ -10,7 +10,10 @@ REQUIREMENTS:
   Example output: 
     2020-10-05 17:57:57.510261 Network Active to 8.8.8.8
 '''
+#!/usr/bin/env python3
 
+import datetime
+import os
 
 def user_ping():
     user_input = input("Enter ping to test: ")
