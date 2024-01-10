@@ -16,7 +16,10 @@ def user_ping():
     user_input = input("Enter ping to test: ")
     return user_input
 
+def test_ping(address):
+  
 
 
 if __name__ == "__main__":
     ping_address = user_ping()
+    test_ping(ping_address)
