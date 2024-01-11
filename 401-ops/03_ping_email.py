@@ -85,7 +85,6 @@ def test_ping(ip_address, notification_email):
 
 
 if __name__ == "__main__":
-
     ping_address = user_ping()
     notification_addr = receiver()
     test_ping(ping_address, notification_addr)
