@@ -14,6 +14,7 @@ https://archive.is/Tl9bj#selection-1833.0-1859.44
 
 
 REQUIRED PACKAGES TO INSTALL:
+WARNING: THEY MUST BE INSTALLED WITH SUDO DUE TO pythonping REQUIRING ELEVATED PRIVILEGES WHEN YOU RUN THE SCRIPT (sudo pip install <package>)
 pythonping
 python-dotenv
 
@@ -34,16 +35,19 @@ load_dotenv()  # Load in environment variables
 
 
 def user_ping():
+    """User inputs target IPv4 address"""
     user_input = input("Enter IPv4 address: ")
     return user_input
 
 
 def receiver():
+    """User inputs email to receive ping status changes."""
     user_input = input("Enter target email for notifications: ")
     return user_input
 
 
 def send_email(receiver_email, subject, body):
+    """Sends email when status changes"""
     message = EmailMessage()
     message["From"] = os.getenv('EMAIL_ADDRESS')
     message["To"] = receiver_email
