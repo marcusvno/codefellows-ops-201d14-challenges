@@ -21,49 +21,71 @@ python-dotenv
 
 #!/usr/bin/python3
 
-import os #Used with dotenv
-from datetime import datetime #For timestamps
-import time #To space out our pings
-from dotenv import load_dotenv #Loads in our environment variables
-from pythonping import ping #Used to ping our targets
-import smtplib 
-import ssl 
+import os  # Used with dotenv
+from datetime import datetime  # For timestamps
+import time  # To space out our pings
+from dotenv import load_dotenv  # Loads in our environment variables
+from pythonping import ping  # Used to ping our targets
+import smtplib
+import ssl
 from email.message import EmailMessage
 
-load_dotenv() #Load in environment variables
+load_dotenv()  # Load in environment variables
+
 
 def user_ping():
     user_input = input("Enter IPv4 address: ")
     return user_input
 
+
 def receiver():
     user_input = input("Enter target email for notifications: ")
     return user_input
 
+
 def send_email(receiver_email, subject, body):
     message = EmailMessage()
     message["From"] = os.getenv('EMAIL_ADDRESS')
+    message["To"] = receiver_email
+    message["Subject"] = subject
+    message.set_content(body)
+
+    # Add SSL
+    context = ssl.create_default_context()
+
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
+        smtp.login(os.getenv('EMAIL_ADDRESS'), os.getenv('EMAIL_PWD'))
+        smtp.send_message(message)
+
 
 def test_ping(ip_address, notification_email):
     """Pythonping requires elevated permissions or it will error out. Run with sudo."""
-    
+
     start_time = datetime.now()
     filename = f'{start_time.strftime("%Y-%m-%d_%H:%M:%S")}_ping_log_{ip_address}.txt'
-    
+    last_status = None
+
     with open(f'{filename}', 'a') as file:
         while True:
             response = ping(ip_address, count=1)
             now = datetime.now()
             timestamp = now.strftime("%Y-%m-%d_%H:%M:%S")
-            # status = f'{now.strftime("%Y-%m-%d_%H:%M:%S")} Network ACTIVE to {ip_address}' if response.success(
-            status = "ACTIVE" if response.success() else "INACTIVE" #Cleaner version than above
-            print(f'{timestamp} - Network {status} - {ip_address}')
-            file.write(f'{timestamp} - Network {status} - {ip_address}\n')
+            status = "ACTIVE" if response.success() else "INACTIVE"
+            print(f'{timestamp} - Target: {ip_address} - Network {status}')
+            file.write(
+                f'{timestamp} - Target: {ip_address}\n - Network {status}')
+
+            if last_status is not None and status != last_status:
+                subject = "Ping Status Changed"
+                body = f'{timestamp} - Target: {ip_address} - Network has changed from {last_status} to {status} '
+                send_email(notification_email, subject, body)
+
+            last_status = status
             time.sleep(2)
 
 
 if __name__ == "__main__":
-       
+
     ping_address = user_ping()
     notification_addr = receiver()
     test_ping(ping_address, notification_addr)
