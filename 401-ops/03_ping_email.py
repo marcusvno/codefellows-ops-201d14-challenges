@@ -77,7 +77,7 @@ def test_ping(ip_address, notification_email):
             status = "ACTIVE" if response.success() else "INACTIVE"
             print(f'{timestamp} - Target: {ip_address} - Network {status}')
             file.write(
-                f'{timestamp} - Target: {ip_address}\n - Network {status}')
+                f'{timestamp} - Target: {ip_address} - Network {status}\n')
 
             if last_status is not None and status != last_status:
                 subject = "Ping Status Changed"
