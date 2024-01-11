@@ -13,6 +13,7 @@ REQUIREMENTS:
 RESOURCES: 
 https://github.com/alessandromaggio/pythonping
 https://web.archive.org/web/20190814203701/https://www.ictshore.com/python/python-ping-tutorial/
+https://www.tutorialspoint.com/How-to-print-current-date-and-time-using-Python
 '''
 
 #!/usr/bin/python3
