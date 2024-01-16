@@ -31,10 +31,10 @@ def key_check():
         key = Fernet.generate_key()
         with open(key_path, "wb") as key_file:
             key_file.write(key)
-        time.sleep(1.5)
+        time.sleep(.5)
     else:
-        print("Key file found.\n")
-        time.sleep(1)
+        print("Key file found.")
+        time.sleep(.5)
 
 
 # def write_key():
@@ -55,6 +55,7 @@ def load_key():
 
 def locksmith_menu():
     '''Present user with options for encryption/decryption'''
+    print()
     while True:
         print("  ----------------------------")
         print("  |         Locksmith        |")
@@ -74,7 +75,7 @@ def locksmith_menu():
             exit()
         else:
             print("Invalid choice. Please choose a valid number.")
-            time.sleep(1)
+            time.sleep(.5)
             os.system('clear')
 
 
@@ -85,29 +86,30 @@ def file_prompt(mode):
 
     print(f'{mode} File')
     while True:
-        filepath = input('Enter ABSOLUTE file path: ')
+        filepath = input('Enter file name or path: ')
         if os.path.exists(filepath):
+            print("File found.")
             break
         print('File not found.')
 
-    if mode == "ENCRYPT":
+    if mode == 'ENCRYPT':
         with open(filepath, "rb") as file:
             file_data = file.read()  # reads file data
 
         encrypted_data = f.encrypt(file_data)  # encrypt data
 
         with open(filepath, "wb") as file:
-            # writes encrypted data back to the file
-            file.write(encrypted_data)
-    elif mode == "DECRYPT":
+            file.write(encrypted_data) # overwrites the file with decrypted data
+        print(f'{filepath} has been encrypted.')
+    elif mode == 'DECRYPT':
         with open(filepath, "rb") as file:
             encrypted_data = file.read()  # reads encrypted file
 
         decrypted_data = f.decrypt(encrypted_data)  # decrypts the data
 
         with open(filepath, "wb") as file:
-            # writes decrypted data back to the file
-            file.write(decrypted_data)
+            file.write(decrypted_data) # overwrites the file with decrypted data
+        print(f'{filepath} has been decrypted.')
 
 
 def message_prompt(mode):
@@ -131,8 +133,11 @@ def message_prompt(mode):
         # Decode the byte string to print it
         print(f'{decrypted_message.decode()}\n')
 
-    choice = input("Quit? [Y/N]: ")
-    if choice.lower == 'y':
+
+def script_quit():
+    '''Checks if the user wishes to continue using the script or quit out.'''
+    print()
+    if input("Quit? [Y/N]: ").lower() == 'y':
         exit()
 
 
@@ -147,3 +152,4 @@ if __name__ == "__main__":
             case "2": file_prompt('DECRYPT')
             case "3": message_prompt('ENCRYPT')
             case "4": message_prompt('DECRYPT')
+        script_quit()
