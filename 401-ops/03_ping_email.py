@@ -65,6 +65,8 @@ def send_email(receiver_email, subject, body):
 def test_ping(ip_address, notification_email):
     """Pythonping requires elevated permissions or it will error out. Run with sudo."""
 
+# Needs a initializing email for when you first start a ping log. 
+
     start_time = datetime.now()
     filename = f'{start_time.strftime("%Y-%m-%d_%H:%M:%S")}_ping_log_{ip_address}.txt'
     last_status = None
