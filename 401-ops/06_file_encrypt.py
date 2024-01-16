@@ -36,16 +36,6 @@ def key_check():
         print("Key file found.")
         time.sleep(.5)
 
-
-# def write_key():
-#     '''Generates a new key and writes it to a file.'''
-#     key = Fernet.generate_key()  # Generate the key
-#     script_dir = os.path.dirname(__file__)  # Get the directory of the script
-#     key_path = os.path.join(script_dir, "key.key")  # Path to the key file
-#     with open(key_path, "wb") as key_file:
-#         key_file.write(key)
-
-
 def load_key():
     '''Loads key from current directory named "key.key" '''
     script_dir = os.path.dirname(__file__)  # Get the directory of the script
