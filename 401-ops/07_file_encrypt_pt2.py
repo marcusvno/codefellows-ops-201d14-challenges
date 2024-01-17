@@ -1,15 +1,12 @@
 # Author:                       Marcus Nogueira
-# Date of latest revision:      01/16/2024
+# Date of latest revision:      01/17/2024
 #
-# OBJECTIVE: Python script that uses a cryptography library to:
-#   - Encrypt a File
-#   - Decrypt a File
-#   - Encrypt a Message
-#   - Decrypt a Message
-# Use a menu for the above and then depending on the selection, prompt for more info.
+# Continuation of 06_file_encrypt_pt1.py
 #
-# REQUIRED PACKAGES:
-# pip install cryptography
+# OBJECTIVE:
+# Add a feature capability to your script to:
+#   - Recursively encrypt a single folder and all its contents.
+#   - Recursively decrypt a single folder that was encrypted by this tool.
 #
 # RESOURCES USED:
 # https://thepythoncode.com/article/encrypt-decrypt-files-symmetric-python
@@ -36,6 +33,7 @@ def key_check():
         print("Key file found.")
         time.sleep(.5)
 
+
 def load_key():
     '''Loads key from current directory named "key.key" '''
     script_dir = os.path.dirname(__file__)  # Get the directory of the script
@@ -52,21 +50,64 @@ def locksmith_menu():
         print("  ----------------------------")
         print("  | 1. Encrypt a File        |")
         print("  | 2. Decrypt a File        |")
-        print("  | 3. Encrypt a Message     |")
-        print("  | 4. Decrypt a Message     |")
-        print("  | 5. Quit                  |")
+        print("  | 3. Encrypt a Folder      |")
+        print("  | 4. Decrypt a Folder      |")
+        print("  | 5. Encrypt a Message     |")
+        print("  | 6. Decrypt a Message     |")
+        print("  | Q. Quit                  |")
         print("  ----------------------------")
         choice = input("  Select one of the above: ")
 
-        if choice in ["1", "2", "3", "4",]:
+        if choice in ["1", "2", "3", "4", "5", "6"]:
             print()
             return choice
-        elif choice == "5":
+        elif choice.upper() == "Q":
             exit()
         else:
-            print("Invalid choice. Please choose a valid number.")
+            print("Invalid choice. Please choose a valid option.")
             time.sleep(.5)
-            os.system('clear')
+
+
+def folder_prompt(mode):
+    '''Prompts user for which file to en/decrypt'''
+    key = load_key()  # Load previous key
+    f = Fernet(key)  # Initialize Fernet module with key
+
+    print(f'{mode} Folder')
+    while True:
+        folder_path = input('Enter folder name or path: ')
+        if os.path.exists(folder_path):
+            print("File found.")
+            break
+        print('File not found.')
+
+    if mode == 'ENCRYPT':
+
+        for root, files in os.walk(folder_path, topdown=False):
+            for file in files:
+                file_path = os.path.join(root, file)
+                with open(file_path, "rb") as file:
+                    file_data = file.read()  # reads file data
+
+                encrypted_data = f.encrypt(file_data)  # encrypt data
+
+                with open(file_path, "wb") as file:
+                    # overwrites the file with decrypted data
+                    file.write(encrypted_data)
+                print(f'{folder_path} has been encrypted.')
+    elif mode == 'DECRYPT':
+        for root, files in os.walk(folder_path, topdown=False):
+            for file in files:
+                file_path = os.path.join(root, file)
+                with open(file_path, "rb") as file:
+                    encrypted_data = file.read()  # reads encrypted file
+
+                decrypted_data = f.decrypt(encrypted_data)  # decrypts the data
+
+                with open(file_path, "wb") as file:
+                    # overwrites the file with decrypted data
+                    file.write(decrypted_data)
+                print(f'{folder_path} has been decrypted.')
 
 
 def file_prompt(mode):
@@ -89,7 +130,8 @@ def file_prompt(mode):
         encrypted_data = f.encrypt(file_data)  # encrypt data
 
         with open(filepath, "wb") as file:
-            file.write(encrypted_data) # overwrites the file with decrypted data
+            # overwrites the file with decrypted data
+            file.write(encrypted_data)
         print(f'{filepath} has been encrypted.')
     elif mode == 'DECRYPT':
         with open(filepath, "rb") as file:
@@ -98,7 +140,8 @@ def file_prompt(mode):
         decrypted_data = f.decrypt(encrypted_data)  # decrypts the data
 
         with open(filepath, "wb") as file:
-            file.write(decrypted_data) # overwrites the file with decrypted data
+            # overwrites the file with decrypted data
+            file.write(decrypted_data)
         print(f'{filepath} has been decrypted.')
 
 
@@ -140,6 +183,8 @@ if __name__ == "__main__":
         match user_input:  # Follow up prompt based on menu choice
             case "1": file_prompt('ENCRYPT')
             case "2": file_prompt('DECRYPT')
-            case "3": message_prompt('ENCRYPT')
-            case "4": message_prompt('DECRYPT')
+            case "3": folder_prompt('ENCRYPT')
+            case "4": folder_prompt('DECRYPT')
+            case "5": message_prompt('ENCRYPT')
+            case "6": message_prompt('DECRYPT')
         script_quit()
