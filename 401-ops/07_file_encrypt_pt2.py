@@ -82,7 +82,6 @@ def folder_prompt(mode):
         print('File not found.')
 
     if mode == 'ENCRYPT':
-
         for root, files in os.walk(folder_path, topdown=False):
             for file in files:
                 file_path = os.path.join(root, file)
