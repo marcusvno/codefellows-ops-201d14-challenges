@@ -98,7 +98,9 @@ def folder_prompt(mode):
                 with open(file_path, "wb") as file:
                     # overwrites the file with decrypted data
                     file.write(encrypted_data)
-                print(f'{folder_path} has been encrypted.')
+                print(f'{file_path} has been encrypted.')
+        print(f'{folder_path} has been encrypted.')
+        
     elif mode == 'DECRYPT':
         for root, dirs, files in os.walk(folder_path, topdown=False):
             for file in files:
@@ -111,7 +113,8 @@ def folder_prompt(mode):
                 with open(file_path, "wb") as file:
                     # overwrites the file with decrypted data
                     file.write(decrypted_data)
-                print(f'{folder_path} has been decrypted.')
+            print(f'{file_path} has been decrypted.')
+        print(f'{folder_path} has been encrypted.')
 
 
 def file_prompt(mode):
