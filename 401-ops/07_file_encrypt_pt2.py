@@ -82,9 +82,9 @@ def folder_prompt(mode):
     while True:
         folder_path = input('Enter folder name or path: ')
         if os.path.exists(folder_path):
-            print("File found.")
+            print("Folder found.")
             break
-        print('File not found.')
+        print('Folder not found.')
 
     if mode == 'ENCRYPT':
         for root, dirs, files in os.walk(folder_path, topdown=False):
