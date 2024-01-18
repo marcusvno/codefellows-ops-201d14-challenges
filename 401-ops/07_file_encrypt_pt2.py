@@ -87,7 +87,7 @@ def folder_prompt(mode):
         print('File not found.')
 
     if mode == 'ENCRYPT':
-        for root, files in os.walk(folder_path, topdown=False):
+        for root, dirs, files in os.walk(folder_path, topdown=False):
             for file in files:
                 file_path = os.path.join(root, file)
                 with open(file_path, "rb") as file:
@@ -100,7 +100,7 @@ def folder_prompt(mode):
                     file.write(encrypted_data)
                 print(f'{folder_path} has been encrypted.')
     elif mode == 'DECRYPT':
-        for root, files in os.walk(folder_path, topdown=False):
+        for root, dirs, files in os.walk(folder_path, topdown=False):
             for file in files:
                 file_path = os.path.join(root, file)
                 with open(file_path, "rb") as file:
