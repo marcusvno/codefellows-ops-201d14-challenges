@@ -12,6 +12,11 @@
 # https://thepythoncode.com/article/encrypt-decrypt-files-symmetric-python
 # https://github.com/codefellows/seattle-cybersecurity-401d10/blob/main/class-06/challenges/DEMO.md
 
+# WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING 
+# This script does NOT have any guard rails to prevent it from encrypting things that could break stuff, like the key file, the script itself, etc. 
+# BE CAREFUL
+# WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING 
+
 import time  # For ensuring users see a message before the screen changes.
 import os  # Used to check if file paths exist
 # Used to generate keys and encrypt/decrypt things
