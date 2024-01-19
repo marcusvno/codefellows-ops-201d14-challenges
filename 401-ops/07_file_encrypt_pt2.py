@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # Author:                       Marcus Nogueira
 # Date of latest revision:      01/17/2024
 #
@@ -12,10 +13,10 @@
 # https://thepythoncode.com/article/encrypt-decrypt-files-symmetric-python
 # https://github.com/codefellows/seattle-cybersecurity-401d10/blob/main/class-06/challenges/DEMO.md
 
-# WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING 
-# This script does NOT have any guard rails to prevent it from encrypting things that could break stuff, like the key file, the script itself, etc. 
+# WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING
+# This script does NOT have any guard rails to prevent it from encrypting things that could break stuff, like the key file, the script itself, etc.
 # BE CAREFUL
-# WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING 
+# WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING
 
 import time  # For ensuring users see a message before the screen changes.
 import os  # Used to check if file paths exist
@@ -100,7 +101,7 @@ def folder_prompt(mode):
                     file.write(encrypted_data)
                 print(f'{file_path} has been encrypted.')
         print(f'{folder_path} has been encrypted.')
-        
+
     elif mode == 'DECRYPT':
         for root, dirs, files in os.walk(folder_path, topdown=False):
             for file in files:
