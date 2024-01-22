@@ -6,15 +6,35 @@
 #   Resource: 
 
 
-Import-Module GroupPolicy # Import the module to edit group policies
+# Import necessary modules
+Import-Module ActiveDirectory
+Import-Module GroupPolicy
 
-# Modify the Default Domain Policy for Password Complexity
-$defaultDomainPolicy = "Default Domain Policy"
-Set-GPRegistryValue -Name $defaultDomainPolicy -Key "HKLM\Software\Microsoft\Windows NT\CurrentVersion\SecEdit\GptTmpl.inf" -ValueName "PasswordComplexity" -Value 1
-# Set the SMB v1 client driver to disable
-Set-GPRegistryValue -Name $defaultDomainPolicy -Key "HKLM\SYSTEM\CurrentControlSet\Services\mrxsmb10" -ValueName "Start" -Type DWORD -Value 4
+# Modify the Default Domain Password Policy for Password Complexity
+try {
+    Set-ADDefaultDomainPasswordPolicy -ComplexityEnabled $true
+    Write-Host "Password complexity has been enabled."
+} catch {
+    Write-Host "An error occurred setting password complexity: $_"
+}
+
+# Ensure you are running as Administrator
+if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator"))
+{
+    Write-Host "You must run PowerShell as an Administrator to make these changes."
+} else {
+   try {
+    Disable-WindowsOptionalFeature -Online -FeatureName SMB1Protocol -NoRestart
+    Write-Host "SMBv1 has been disabled."
+} catch {
+    Write-Host "An error occurred: $_"
+}
+}
 
 # Refresh Group Policy
-gpupdate /force
-
-Write-Host "GPOs have been updated. Password complexity is enabled and SMB v1 client driver is disabled."
+try {
+    gpupdate /force
+    Write-Host "Group Policy update has been forced."
+} catch {
+    Write-Host "An error occurred while forcing Group Policy update: $_"
+}
