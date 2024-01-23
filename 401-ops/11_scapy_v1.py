@@ -16,6 +16,27 @@
 #   - If flag 0x14 received, notify user the port is closed.
 #   - If no flag is received, notify the user the port is filtered and silently dropped.
 
-import scapy
+# import scapy
 
-target = input("Enter target IPv4: ")
+target = "scanme.nmap.org"
+print(f'Default target: {target}')
+
+while True:  # loop for first prompt
+    change_target = input("Do you wish to change target [Y/N]: ").lower()
+
+    if change_target == 'y':
+        while True:  # loop for entering a new target
+            new_target = input("Enter new target: ")
+            print(f'New target: {new_target}')
+            continue_input = input("Continue with this target? [Y/N] ").lower()
+
+            if continue_input == 'y':
+                target = new_target  # update the target variable
+                break  # breaks out of the inner loop
+
+        break  # break out of the outer loop
+
+    elif change_target == 'n':
+        break
+
+print(f'Current target: {target}')
