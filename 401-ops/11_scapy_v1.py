@@ -16,7 +16,7 @@
 #   - If flag 0x14 received, notify user the port is closed.
 #   - If no flag is received, notify the user the port is filtered and silently dropped.
 
-# from scapy.all import sr1, IP, ICMP
+from scapy.all import sr1, IP, ICMP
 
 def target_prompt():
     target = "scanme.nmap.org"
@@ -60,6 +60,7 @@ def port_range():
 
 
 def main():
+    menu_choice = menu()
     target = target_prompt()
     range = port_range()
     print(range)
