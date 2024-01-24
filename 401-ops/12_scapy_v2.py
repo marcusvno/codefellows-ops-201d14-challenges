@@ -70,7 +70,7 @@ def target_prompt():
             return target
 
 
-def port_range():
+def port_range_prompt():
     while True:
         start_port = int(input("Enter start port: "))
         end_port = int(input("Enter end port: "))
@@ -86,28 +86,36 @@ def port_range():
             print("\nInvalid range.\n")
 
 
+def scanner(target, port_range):
+    pass
+
+
 def network_prompt():
     while True:
         user_input = input("\nEnter target network IPv4 CIDR: ")
         if ipaddress.IPv4Address(user_input).is_global is True:
-            confirm = input(f'{user_input} is a public network. Continue? [y/n] ')
+            confirm = input(
+                f'{user_input} is a public network. Continue? [y/n] ')
             if confirm.lower() == 'y':
-                    sweeper(user_input)
+                sweeper(user_input)
         if ipaddress.IPv4Address(user_input).is_private is True:
-            confirm = input(f'{user_input} is a private network. Continue? [y/n] ')
+            confirm = input(
+                f'{user_input} is a private network. Continue? [y/n] ')
             if confirm.lower() == 'y':
-                    sweeper(user_input)
-        
-        
+                sweeper(user_input)
 
-def sweeper()
+
+def sweeper(user_ip):
+    ip = ipaddress.IPv4Address(user_ip)
+
 
 def main():
     menu_choice = menu()
     match menu_choice:  # Follow up prompt based on menu choice
         case "1":
             target = target_prompt()
-            range = port_range()
+            port_range = port_range_prompt()
+            scanner(target, port_range)
         case "2": network_prompt()
 
 
