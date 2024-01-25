@@ -6,43 +6,13 @@
 # Purpose: Build our own network scanning tool with scapy.
 #
 # REQUIREMENTS:
-# Add the following features to your Network Security Tool:
-# User menu prompting choice between TCP Port Range Scanner mode and ICMP Ping Sweep mode, with the former leading to yesterday’s feature set
-#   - ICMP Ping Sweep tool
-#       - Prompt user for network address including CIDR block, for example “10.10.0.0/24”
-#       (Careful not to populate the host bits!)
-#
-#   - Create a list of all addresses in the given network
-#   - Ping all addresses on the given network except for network address and broadcast address
-#       - If no response, inform the user that the host is down or unresponsive.
-#       - If ICMP type is 3 and ICMP code is either 1, 2, 3, 9, 10, or 13 then inform the user that the host is actively blocking ICMP traffic.
-#       - Otherwise, inform the user that the host is responding.
-#   - Count how many hosts are online and inform the user.
+# Final evolution of this tool
+#   - Ping an IP address determined by the user.
+#   - If the host exists, scan its ports and determine if any are open.
 
-from time import sleep
+# from time import sleep
 import ipaddress
 from scapy.all import sr1, IP, ICMP
-
-
-def menu():
-    '''Present user with options for encryption/decryption'''
-    print()
-    while True:
-        print("  -------------------------")
-        print("  | 1. Port Scanner       |")
-        print("  | 2. ICMP Ping Sweep    |")
-        print("  | 3. Quit               |")
-        print("  -------------------------")
-        choice = input("  Select one of the above: ")
-
-        if choice in ["1", "2", "3"]:
-            print()
-            return choice
-        elif choice == "3":
-            exit()
-        else:
-            print("Invalid choice. Please choose a valid number.")
-            sleep(.5)
 
 
 def target_prompt():
@@ -63,11 +33,19 @@ def target_prompt():
                     print(f'\nCurrent target: {target}')
                     return target  # breaks out of the inner loop
 
-            # break  # break out of the outer loop
-
         elif change_target == 'n':
             print(f'\nCurrent target: {target}')
             return target
+
+
+def ping_check(target):
+    p = sr1(IP(dst=target)/ICMP())
+    if p:
+        print(f'{target} is online.')
+        return True
+    else:
+        print(f'{target} is down or not responding to IMCP.')
+        return False
 
 
 def port_range_prompt():
@@ -86,37 +64,23 @@ def port_range_prompt():
             print("\nInvalid range.\n")
 
 
-def scanner(target, port_range):
-    pass
-
-
-def network_prompt():
-    while True:
-        user_input = input("\nEnter target network IPv4 CIDR: ")
-        if ipaddress.IPv4Address(user_input).is_global is True:
-            confirm = input(
-                f'{user_input} is a public network. Continue? [y/n] ')
-            if confirm.lower() == 'y':
-                sweeper(user_input)
-        if ipaddress.IPv4Address(user_input).is_private is True:
-            confirm = input(
-                f'{user_input} is a private network. Continue? [y/n] ')
-            if confirm.lower() == 'y':
-                sweeper(user_input)
-
-
-def sweeper(user_ip):
+def sweeper(target):
+    open_ports = []
     ip = ipaddress.IPv4Address(user_ip)
+    print(f'Scanning {target}')
+
+    return open_ports
 
 
 def main():
-    menu_choice = menu()
-    match menu_choice:  # Follow up prompt based on menu choice
-        case "1":
-            target = target_prompt()
-            port_range = port_range_prompt()
-            scanner(target, port_range)
-        case "2": network_prompt()
+    target = target_prompt()
+    if ping_check(target):
+        open_ports = sweeper(target)
+        port_range = port_range_prompt
+        if open_ports:
+            print(f'Open ports on {target}: {open_ports}')
+        else:
+            print(f'No open ports found on {target}')
 
 
 if __name__ == "__main__":
