@@ -12,7 +12,6 @@
 
 # from time import sleep
 from scapy.all import sr1, IP, TCP, ICMP, send
-import socket
 import random
 
 
