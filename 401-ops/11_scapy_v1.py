@@ -15,6 +15,13 @@
 #   - If flag 0x12 received, send a RST packet to graciously close the open connection. Notify the user the port is open.
 #   - If flag 0x14 received, notify user the port is closed.
 #   - If no flag is received, notify the user the port is filtered and silently dropped.
+#
+# TO USE THE SCRIPT:
+#   - Install scapy with sudo because it needs elevated privileges to create packets at the Network (layer 3) level.
+#        - sudo pip3 install scapy
+#   - To run the script, use sudo for the reason above.
+#       - sudo python3 11_scapy_v1.py
+#
 
 from scapy.all import sr1, IP, TCP, send
 import random
