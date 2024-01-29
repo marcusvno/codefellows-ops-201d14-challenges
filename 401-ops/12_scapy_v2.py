@@ -30,7 +30,7 @@
 from time import sleep
 import ipaddress
 import logging
-from scapy.all import sr1, IP, TCP, send, ICMP, conf
+from scapy.all import sr1, IP, TCP, send, ICMP
 import random
 
 # Silences a MAC Address warning that I was getting from IPs not assigned to anything.
@@ -154,7 +154,7 @@ def main():
             target = target_prompt()
             port_range = port_range_prompt()
             port_scan(target, port_range)
-        case "2": 
+        case "2":
             target_network = network_prompt()
             sweeper(target_network)
 
