@@ -1,19 +1,17 @@
 #!/bin/bash/env python3
 
 # Author:                       Marcus Nogueira
-# Date of latest revision:      01/29/2024
+# Date of latest revision:      01/31/2024
 #
 # Purpose: Build an automated brute force wordlist
 #
 # REQUIREMENTS:
-# Add to your Python brute force tool the capability to:
-#   Authenticate to an SSH server by its IP address.
-#   Assume the username and IP are known inputs and attempt each word on the provided word list until successful login takes place.
+# Brute Force attack a zip file
 #
 
 from time import sleep
+from zipfile import ZipFile
 import paramiko
-# import getpass
 import os
 
 
@@ -26,10 +24,11 @@ def menu():
         print("| 2. Search for Word                 |")
         print("| 3. Password Complexity Test        |")
         print("| 4. SSH vs Dictionary               |")
+        print("| 5. Brute a Zip                     |")
         print("| Q. Quit                            |")
         print("--------------------------------------")
         choice = input(" Enter menu option: ")
-        if choice in ["1", "2", "3", "4"]:
+        if choice in ["1", "2", "3", "4", "5"]:
             print()
             return choice
         elif choice.lower() == "q":
@@ -40,7 +39,7 @@ def menu():
 
 
 def load_print_dictionary():
-    file_path = file_path_input()
+    file_path = file_path_input("dictionary")
     file_name = os.path.basename(file_path)
     password_list = []
     print(f"\nPRINTING {file_name}\n")
@@ -52,7 +51,7 @@ def load_print_dictionary():
 
 
 def load_wordlist():
-    file_path = file_path_input()
+    file_path = file_path_input("word list")
     file_name = os.path.basename(file_path)
     password_list = []
     print(f"\nLOADING {file_name}\n")
@@ -65,7 +64,7 @@ def load_wordlist():
 
 def password_search():
     word = input("Enter word: ")
-    file_path = file_path_input()
+    file_path = file_path_input("word list")
     file_name = os.path.basename(file_path)
     password_list = []
     print(f'\nSEARCHING {file_name} for "{word}"')
@@ -79,8 +78,8 @@ def password_search():
         print(f'"{word}" not found.')
 
 
-def file_path_input():
-    file_path = input("Enter file path to dictionary: ")
+def file_path_input(target):
+    file_path = input(f'Enter file path to {target}: ')
     return file_path
 
 
@@ -188,6 +187,22 @@ def ssh_attempt(ip, username, password):
     ssh.close()
     return code
 
+def brute_zip():
+    word_list = load_wordlist()
+    zip = file_path_input("zip file")
+    extract_path = input("Enter directory to extract to: ")
+    
+    print("\nAttempting to Extract ")
+    for password in word_list:
+        with ZipFile(zip) as zf:
+            try:
+                zf.extractall(path=extract_path,pwd=bytes(password, 'utf-8'))
+                print(f'\n[*] Success! Extracted with password: {password}')
+                exit()
+            except RuntimeError:
+                print(f'[*] Password: {password} - INVALID')
+    
+
 
 if __name__ == "__main__":
     choice = menu()
@@ -196,3 +211,4 @@ if __name__ == "__main__":
         case "2": password_search()
         case "3": password_complexity()
         case "4": ssh_attack()
+        case "5": brute_zip()
