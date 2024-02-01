@@ -11,8 +11,8 @@
 
 from time import sleep
 from zipfile import ZipFile
-import paramiko
 import os
+import paramiko
 
 
 def menu():
@@ -187,21 +187,21 @@ def ssh_attempt(ip, username, password):
     ssh.close()
     return code
 
+
 def brute_zip():
     word_list = load_wordlist()
-    zip = file_path_input("zip file")
+    target_zip = file_path_input("zip file")
     extract_path = input("Enter directory to extract to: ")
-    
+
     print("\nAttempting to Extract ")
     for password in word_list:
-        with ZipFile(zip) as zf:
+        with ZipFile(target_zip) as zf:
             try:
-                zf.extractall(path=extract_path,pwd=bytes(password, 'utf-8'))
+                zf.extractall(path=extract_path, pwd=bytes(password, 'utf-8'))
                 print(f'\n[*] Success! Extracted with password: {password}')
                 exit()
             except RuntimeError:
                 print(f'[*] Password: {password} - INVALID')
-    
 
 
 if __name__ == "__main__":
