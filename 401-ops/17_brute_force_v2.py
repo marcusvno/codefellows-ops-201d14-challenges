@@ -1,4 +1,4 @@
-`#!/bin/bash/env python3
+#!/bin/bash/env python3
 
 # Author:                       Marcus Nogueira
 # Date of latest revision:      01/29/2024
@@ -10,7 +10,7 @@
 #   Authenticate to an SSH server by its IP address.
 #   Assume the username and IP are known inputs and attempt each word on the provided word list until successful login takes place.
 #
-`
+
 from time import sleep
 import paramiko
 # import getpass

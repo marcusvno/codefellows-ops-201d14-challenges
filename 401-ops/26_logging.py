@@ -8,12 +8,16 @@
 # Add logging to previous tool
 #
 
-
+import logging
+from datetime import datetime
 from time import sleep
 from zipfile import ZipFile
 import os
 import paramiko
 
+# Configure logging
+logging.basicConfig(filename='robot_hulk_log.txt', level=logging.INFO, 
+                    format='%(asctime)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
 def menu():
     while True:
@@ -59,6 +63,7 @@ def load_wordlist():
         for line in file:
             password_list.append(line.strip())
 
+    log_message(f'{file_name} used for wordlist.')
     return password_list
 
 
@@ -154,6 +159,9 @@ def ssh_attack():
     print(f'Username: {username}\n')
     word_list = load_wordlist()
 
+    log_message(f'Attempting to SSH Brute force {username}@{ip} ')
+
+
     print("BEGINNING RUN")
     for password in word_list:
         res = ssh_attempt(ip, username, password)
@@ -202,6 +210,11 @@ def brute_zip():
                 exit()
             except RuntimeError:
                 print(f'[*] Password: {password} - INVALID')
+
+
+
+def log_message(message):
+    logging.info(message)
 
 
 if __name__ == "__main__":
