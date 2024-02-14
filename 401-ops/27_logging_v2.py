@@ -5,30 +5,41 @@
 #
 #
 # REQUIREMENTS:
-# Add logging to previous tool
+# Add log rotation to previous script
+# Add different levels of logging.
 #
+# NOTES:
+# I'll be removing the functions that were there for educational purposes and likely will not have real use
+#   - Printing out a wordlist
+#   - Searching a wordlist for a word.
+#   - Password Complexity test.
+#        - This has use but not in this script.
 
 import logging
 from datetime import datetime
 from time import sleep
 from zipfile import ZipFile
 import os
+import sys
 import paramiko
 
 # Configure logging
-logging.basicConfig(filename='robot_hulk_log.txt', level=logging.INFO, 
-                    format='%(asctime)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(asctime)s - %(levelname)s - %(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S',
+                    handlers=[
+                        logging.FileHandler('robot_hulk_log.txt'),
+                        logging.StreamHandler(sys.stdout)
+                    ])
+
 
 def menu():
     while True:
         print("\n-------------------------------------")
         print("|               Robot Hulk           |")
         print("--------------------------------------")
-        print("| 1. Dictionary Iterator             |")
-        print("| 2. Search for Word                 |")
-        print("| 3. Password Complexity Test        |")
-        print("| 4. SSH vs Dictionary               |")
-        print("| 5. Brute a Zip                     |")
+        print("| 1. SSH vs Dictionary               |")
+        print("| 2. Brute a Zip                     |")
         print("| Q. Quit                            |")
         print("--------------------------------------")
         choice = input(" Enter menu option: ")
@@ -42,16 +53,13 @@ def menu():
             sleep(.5)
 
 
-def load_print_dictionary():
-    file_path = file_path_input("dictionary")
-    file_name = os.path.basename(file_path)
-    password_list = []
-    print(f"\nPRINTING {file_name}\n")
-    with open(file_path, 'r') as file:
-        for line in file:
-            password_list.append(line.strip())
-            print(line.strip())
-            sleep(.3)
+def file_path_input(target):
+    while True:
+        file_path = input(f'Enter file path to {target}: ')
+        if os.path.exists(file_path):
+            return file_path
+        logging.error("File path does not exist: %s", file_path)
+        print("Please enter a valid file path.")
 
 
 def load_wordlist():
@@ -59,11 +67,15 @@ def load_wordlist():
     file_name = os.path.basename(file_path)
     password_list = []
     print(f"\nLOADING {file_name}\n")
-    with open(file_path, 'r') as file:
-        for line in file:
-            password_list.append(line.strip())
+    try:
+        with open(file_path, 'r') as file:
+            for line in file:
+                password_list.append(line.strip())
+        logging.info('%s loaded with %d entries.', os.path.basename(file_path), len(password_list))
 
-    log_message(f'{file_name} used for wordlist.')
+    except Exception as e:
+        logging.error("Error loading wordlist: %s", e)
+        exit()
     return password_list
 
 
@@ -83,84 +95,12 @@ def password_search():
         print(f'"{word}" not found.')
 
 
-def file_path_input(target):
-    file_path = input(f'Enter file path to {target}: ')
-    return file_path
-
-
-def password_complexity():
-    print("\n-------------------------------------------")
-    print("|               Password Test             |")
-    print("-------------------------------------------")
-    print("| 1. Must use at least 8 characters       |")
-    print("| 2. Must use at least 2 capital letters  |")
-    print("| 3. Must use at least 2 numbers          |")
-    print("| 4. Must use at least 2 symbols          |")
-    print("-------------------------------------------")
-    while True:
-        password = input(" Enter password to test: ")
-        uppercase_count = check_caps(password)
-        num_count = check_nums(password)
-        sym_count = check_sym(password)
-        print()
-        if len(password) >= 8:
-            print("Passed LENGTH requirement.")
-            sleep(.3)
-            if uppercase_count >= 2:
-                print("Passed UPPERCASE requirement.")
-                sleep(.3)
-                if num_count >= 2:
-                    print("Passed NUMBERS requirement.")
-                    sleep(.3)
-                    if sym_count >= 2:
-                        print("Passed SYMBOLS requirement.")
-                        sleep(.3)
-                        print('\nPASSED TEST.')
-                        break
-                    else:
-                        print("Failed SYMBOLS test. Use more SYMBOLS.\n")
-                else:
-                    print("Failed NUMBERS test. Use more NUMBERS.\n")
-            else:
-                print("Failed UPPERCASE TEST. Use more UPPERCASE letters.\n")
-        else:
-            print("Password NOT long enough.\n")
-
-
-def check_caps(password):
-    upper = 0
-    for char in password:
-        if char.isupper():
-            upper += 1
-
-    return upper
-
-
-def check_nums(password):
-    num = 0
-    for char in password:
-        if char.isnumeric():
-            num += 1
-    return num
-
-
-def check_sym(password):
-    sym = 0
-    for char in password:
-        if not char.isalnum():
-            sym += 1
-    return sym
-
-
 def ssh_attack():
     ip = input("Enter IPv4 [Default: 192.168.1.18]: ") or "192.168.1.18"
     print(f'Target: {ip}')
     username = input("\nEnter username [Default: anakin]: ") or "anakin"
     print(f'Username: {username}\n')
     word_list = load_wordlist()
-
-    log_message(f'Attempting to SSH Brute force {username}@{ip} ')
-
 
     print("BEGINNING RUN")
     for password in word_list:
@@ -212,16 +152,11 @@ def brute_zip():
                 print(f'[*] Password: {password} - INVALID')
 
 
-
-def log_message(message):
-    logging.info(message)
-
-
 if __name__ == "__main__":
-    choice = menu()
-    match choice:
-        case "1": load_print_dictionary()
-        case "2": password_search()
-        case "3": password_complexity()
-        case "4": ssh_attack()
-        case "5": brute_zip()
+    menu_choice = menu()
+    match menu_choice:
+        case "1": ssh_attack()
+        # case "2": brute_zip()
+        case "2": testlist = load_wordlist()
+
+    print(testlist)
