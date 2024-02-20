@@ -46,6 +46,7 @@ def directory_input():
 
 def path_check(path):
     if path.statswith('~'):
+        logging.info('Directory path expanded to %s', os.path.expanduser(path))
         return os.path.expanduser(path)
     else:
         return path
