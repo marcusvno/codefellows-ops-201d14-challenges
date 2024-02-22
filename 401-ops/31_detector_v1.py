@@ -17,6 +17,10 @@
 import logging
 import os
 
+# Check if a temp folder exists for the log file.
+if not os.path.exists("temp"):
+    os.makedirs("temp")
+
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(levelname)s - %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S',
@@ -56,6 +60,7 @@ def path_check(path):
         return path
 
 def search_files(directory, filename):
+    '''Search function that works in Windows (tested with Cmder and Alacritty) and Ubuntu'''
     file_count = 0
     files_searched = 0
     print(f'\nSearching for {filename.upper()} in {directory.upper()} directory\n')
