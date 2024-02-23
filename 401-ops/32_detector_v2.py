@@ -13,6 +13,9 @@
 
 import logging
 import os
+import hashlib
+from datetime import datetime
+
 
 # Check if a temp folder exists for the log file.
 if not os.path.exists("temp"):
@@ -22,10 +25,9 @@ logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(levelname)s - %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S',
                     handlers=[
-                        logging.FileHandler('temp/file_detector_log.log'),
+                        logging.FileHandler('temp/file_hasher.log'),
                        # logging.StreamHandler()
                     ])
-
 
 def user_input(target):
     try:
@@ -35,7 +37,6 @@ def user_input(target):
     except KeyboardInterrupt:
         logging.warning("User initiated exit.")
         exit()
-
 
 def directory_input():
     while True:
@@ -56,29 +57,36 @@ def path_check(path):
     else:
         return path
 
-def search_files(directory, filename):
-    '''Search function that works in Windows (tested with Cmder and Alacritty) and Ubuntu'''
-    file_count = 0
-    files_searched = 0
-    print(f'\nSearching for {filename.upper()} in {directory.upper()} directory\n')
+def scan_files(directory):
+    print(f'\nScanning files in {directory}\n')
     for root, dirs, files in os.walk(directory):
         for file in files:
-            files_searched += 1
-            if file == filename:
-                file_count += 1
-                file_path = os.path.join(root, file)
-                logging.info(f'Found: {file_path}')
-                print(f"Found: {file}")
-    logging.info(f"Files searched: {files_searched}, Hits found: {file_count}")
-    print(f"\nFiles searched: {files_searched}, Hits found: {file_count}")
+            file_path = os.path.join(root, file)
+            md5_hash = hash_file(file_path)
+            file_size = os.path.getsize(file_path)
+            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            
+            logging.debug(f"Hashed: {file_path}, MD5: {md5_hash}")
+            print(f'[*] Timestamp: {timestamp} | File: {file_path} | Size: {file_size} bytes | MD5: {md5_hash}')
+            
+
+def hash_file(file_path):
+    md5_hash = hashlib.md5()
+    try:
+        with open(file_path, 'rb') as f:
+            for byte_block in iter(lambda: f.read(4096),b""):
+                md5_hash.update(byte_block)
+        return md5_hash.hexdigest()
+    except Exception as e:
+        logging.error(f"Error generating MD5 for {file_path}: {e}")
+        exit()
 
 def main():
-    logging.info("[  =======  File Detection Script Initialized ======= ]")
+    logging.info("[  =======  File Hashing Script Initialized ======= ]")
     print("\n[  =======  File Detection Script ======= ]")
-    filename = user_input("FILE NAME")
     directory = directory_input()
-    search_files(directory, filename)
-    logging.info("[  =======  File Detection Script Completed ======= ]")
+    scan_files(directory)
+    logging.info("[  =======  File Hashing Script Completed ======= ]")
 
 
 if __name__ == "__main__":
