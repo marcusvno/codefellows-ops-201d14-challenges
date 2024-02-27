@@ -1,4 +1,8 @@
 # Ignore environment variable file
-.env
+*.env
+
+# Ignore key files
 *.key
+
+# Ignore temp folder
 temp/
