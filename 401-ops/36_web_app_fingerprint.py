@@ -62,16 +62,19 @@ def target_ip():
 
 
 def ncat(ip, port):
+    print("\nNetcat Scan Starting:")
     command = f'nc {ip} {port}'
     os.system(command)
 
 
 def tnet(ip, port):
+    print("\nTelnet Connection Test:")
     command = f'telnet {ip} {port}'
     os.system(command)
 
 
 def nmap_scan(ip):
+    print()
     command = f'nmap -sV -top-ports 1024 {ip}'
     os.system(command)
 
