@@ -33,7 +33,6 @@ logging.basicConfig(level=logging.DEBUG,
 
 def banner():
     print("""
-    
 ┏┓•            •   
 ┣ ┓┏┓┏┓┏┓┏┓┏┓┏┓┓┏┓╋
 ┻ ┗┛┗┗┫┗ ┛ ┣┛┛ ┗┛┗┗
@@ -53,7 +52,7 @@ def user_input(target):
 
 def target_ip():
     while True:
-        ipaddr = user_input("IPv4 Adddress")
+        ipaddr = user_input("Target Address")
         target_port = user_input("PORT")
 
         confirm = input(f'Target: {ipaddr} {target_port} [Y/n]: ') or "Y"
@@ -63,13 +62,26 @@ def target_ip():
 
 
 def ncat(ip, port):
-    pass
+    command = f'nc {ip} {port}'
+    os.system(command)
+
+
+def tnet(ip, port):
+    command = f'telnet {ip} {port}'
+    os.system(command)
+
+
+def nmap_scan(ip):
+    command = f'nmap -sV -top-ports 1024 {ip}'
+    os.system(command)
 
 
 def main():
     banner()
     target = target_ip()
     ncat(*target)
+    tnet(*target)
+    nmap_scan(target[0])
 
 
 if __name__ == "__main__":
