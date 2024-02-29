@@ -6,7 +6,7 @@
 # Date:        02/28/2024
 # Modified by: Marcus Nogueira
 
-### TODO: Install requests bs4 before executing this in Python3
+# TODO: Install requests bs4 before executing this in Python3
 
 # Import libraries
 
@@ -17,14 +17,12 @@ from urllib.parse import urljoin
 
 # Declare functions
 
-### TODO: Add function explanation here ###
-### In your own words, describe the purpose of this function as it relates to the overall objectives of the script ###
+# Function uses Beautiful Soup to parse the GET request from the target URL made using the requests library. After parsing the HTML response, the function then returns the forms found.
 def get_all_forms(url):
     soup = bs(requests.get(url).content, "html.parser")
     return soup.find_all("form")
 
-### TODO: Add function explanation here ###
-### In your own words, describe the purpose of this function as it relates to the overall objectives of the script ###
+### This function gets passed an individual form info from scan_xss and pulls the relevant form attributes (and lowercases all text) and loops to find all input attributes from the forms before returning a list. 
 def get_form_details(form):
     details = {}
     action = form.attrs.get("action").lower()
@@ -41,6 +39,8 @@ def get_form_details(form):
 
 ### TODO: Add function explanation here ###
 ### In your own words, describe the purpose of this function as it relates to the overall objectives of the script ###
+
+
 def submit_form(form_details, url, value):
     target_url = urljoin(url, form_details["action"])
     inputs = form_details["inputs"]
@@ -58,12 +58,13 @@ def submit_form(form_details, url, value):
     else:
         return requests.get(target_url, params=data)
 
-### TODO: Add function explanation here ###
-### In your own words, describe the purpose of this function as it relates to the overall objectives of the script ###
+# Calls and saves the return from get_all_forms function to a forms variable. Prints the number of forms found in the URL. It then uses a loop to test each form with a JS snippet that shouldn't work and examines the response to the POST requests and checks if the snippet appears in the website's code. If it does, it prints that XSS was discovered and which form it was that was vulnerable to XSS.
+
+
 def scan_xss(url):
     forms = get_all_forms(url)
     print(f"[+] Detected {len(forms)} forms on {url}.")
-    js_script = ### TODO: Add HTTP and JS code here that will cause a XSS-vulnerable field to create an alert prompt with some text.
+    js_script = '<IMG """><SCRIPT>alert("Test")</SCRIPT>"\>'
     is_vulnerable = False
     for form in forms:
         form_details = get_form_details(form)
@@ -77,12 +78,12 @@ def scan_xss(url):
 
 # Main
 
-### TODO: Add main explanation here ###
-### In your own words, describe the purpose of this main as it relates to the overall objectives of the script ###
+
+# Keeps the script from being run in other scripts as module. Determines the structure of the program. Runs an input for URL to test for XSS (Cross Site Scripting) vulnerabilities. Passes that URL variable to the scan_xss function and prints the results.
 if __name__ == "__main__":
-    url = input("Enter a URL to test for XSS:") 
+    url = input("Enter a URL to test for XSS:")
     print(scan_xss(url))
 
-### TODO: When you have finished annotating this script with your own comments, copy it to Web Security Dojo
-### TODO: Test this script against one XSS-positive target and one XSS-negative target
-### TODO: Paste the outputs here as comments in this script, clearling indicating which is positive detection and negative detection
+# TODO: When you have finished annotating this script with your own comments, copy it to Web Security Dojo
+# TODO: Test this script against one XSS-positive target and one XSS-negative target
+# TODO: Paste the outputs here as comments in this script, clearling indicating which is positive detection and negative detection
