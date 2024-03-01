@@ -94,7 +94,8 @@ if __name__ == "__main__":
 #              'value': '<IMG """><SCRIPT>alert("Test")</SCRIPT>"\\>'},
 #             {'name': None, 'type': 'submit'}],
 #  'method': 'get'}
-# True  <----- This indicates the XSS is detected.
+# True   <------- This indicates the XSS is detected.
+#
 # dojo@dojo-VirtualBox:~/Downloads$ python3 38_xss_detection.py 
 # Enter a URL to test for XSS:http://dvwa.local/login.php
 # [+] Detected 1 forms on http://dvwa.local/login.php.
