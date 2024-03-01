@@ -82,3 +82,21 @@ if __name__ == "__main__":
 # TODO: When you have finished annotating this script with your own comments, copy it to Web Security Dojo
 # TODO: Test this script against one XSS-positive target and one XSS-negative target
 # TODO: Paste the outputs here as comments in this script, clearling indicating which is positive detection and negative detection
+#
+# dojo@dojo-VirtualBox:~/Downloads$ python3 38_xss_detection.py 
+# Enter a URL to test for XSS:https://xss-game.appspot.com/level1/frame
+# [+] Detected 1 forms on https://xss-game.appspot.com/level1/frame.
+# [+] XSS Detected on https://xss-game.appspot.com/level1/frame
+# [*] Form details:
+# {'action': '',
+#  'inputs': [{'name': 'query',
+#              'type': 'text',
+#              'value': '<IMG """><SCRIPT>alert("Test")</SCRIPT>"\\>'},
+#             {'name': None, 'type': 'submit'}],
+#  'method': 'get'}
+# True  <----- This indicates the XSS is detected.
+# dojo@dojo-VirtualBox:~/Downloads$ python3 38_xss_detection.py 
+# Enter a URL to test for XSS:http://dvwa.local/login.php
+# [+] Detected 1 forms on http://dvwa.local/login.php.
+# False  <------- This indicates the negative detection of an XSS vulnerability.
+# dojo@dojo-VirtualBox:~/Downloads$ 
