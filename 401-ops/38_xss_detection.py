@@ -22,7 +22,7 @@ def get_all_forms(url):
     soup = bs(requests.get(url).content, "html.parser")
     return soup.find_all("form")
 
-### This function gets passed an individual form info from scan_xss and pulls the relevant form attributes (and lowercases all text) and loops to find all input attributes from the forms before returning a list. 
+### This function gets passed an individual form info from scan_xss and pulls the relevant form attributes (and lowercases all text) and loops to find all input attributes from the forms before returning a dictionary.
 def get_form_details(form):
     details = {}
     action = form.attrs.get("action").lower()
@@ -37,10 +37,7 @@ def get_form_details(form):
     details["inputs"] = inputs
     return details
 
-### TODO: Add function explanation here ###
-### In your own words, describe the purpose of this function as it relates to the overall objectives of the script ###
-
-
+### Takes the target URL, scanned forms, and starts inputting a value parameter that was passed to this function (the JS snippet from the scan_xss function). Then it does a POST or GET request based on the method of the form and returns the response to be evaluated by the scan_xss function.
 def submit_form(form_details, url, value):
     target_url = urljoin(url, form_details["action"])
     inputs = form_details["inputs"]
@@ -59,8 +56,6 @@ def submit_form(form_details, url, value):
         return requests.get(target_url, params=data)
 
 # Calls and saves the return from get_all_forms function to a forms variable. Prints the number of forms found in the URL. It then uses a loop to test each form with a JS snippet that shouldn't work and examines the response to the POST requests and checks if the snippet appears in the website's code. If it does, it prints that XSS was discovered and which form it was that was vulnerable to XSS.
-
-
 def scan_xss(url):
     forms = get_all_forms(url)
     print(f"[+] Detected {len(forms)} forms on {url}.")
