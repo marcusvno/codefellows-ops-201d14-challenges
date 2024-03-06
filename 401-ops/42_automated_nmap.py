@@ -4,7 +4,7 @@
 # Description: Automating Nmap in Python
 # Date:        03/05/2024
 
-# Nmap must be installed for this to run.
+# This script requires Python3 and python-nmap 0.6.1.
 
 import nmap
 
@@ -20,12 +20,13 @@ type(ip_addr)
 resp = input("""\nSelect scan to execute:
                 1) SYN ACK Scan
                 2) UDP Scan
-                3)              \n""") ### TODO: Select what your third scan type will be
+                3) Aggressive Scan
+                4) Quit\n""")
 print("You have selected option: ", resp)
 
-range = '1-50'
-
-### TODO: Prompt the user to type in a port range for this tool to scan
+start_port = input("Enter start port: ")
+end_port = input ("Enter end port: ")
+range = f'{start_port}-{end_port}'
 
 if resp == '1':
     print("Nmap Version: ", scanner.nmap_version())
@@ -35,11 +36,21 @@ if resp == '1':
     print(scanner[ip_addr].all_protocols())
     print("Open Ports: ", scanner[ip_addr]['tcp'].keys())
 elif resp == '2':
-    ### TODO: Add missing code block here
-    print("Please enter a valid option") ### TODO: Remove this
+    print("Nmap Version: ", scanner.nmap_version())
+    scanner.scan(ip_addr, range, '-v -sU')
+    print(scanner.scaninfo())
+    print("Ip Status: ", scanner[ip_addr].state())
+    print(scanner[ip_addr].all_protocols())
+    print("Open Ports: ", scanner[ip_addr]['udp'].keys())
 elif resp == '3':
-    ### TODO: Add missing code block here
-    print("Please enter a valid option") ### TODO: Remove this
-elif resp >= '4':
-    print("Please enter a valid option")
-``
+    print("Nmap Version: ", scanner.nmap_version())
+    scanner.scan(ip_addr, range, '-v -A -O -T4')
+    print(scanner.scaninfo())
+    print("Ip Status: ", scanner[ip_addr].state())
+    print(scanner[ip_addr].all_protocols())
+    print("Open Ports: ", scanner[ip_addr]['tcp'].keys())
+elif resp == '4':
+    print("Quitting..")
+    exit()
+else:
+    print("Please enter a valid option: ")
