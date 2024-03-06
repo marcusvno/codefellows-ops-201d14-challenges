@@ -17,16 +17,17 @@ ip_addr = input("IP address to scan: ")
 print("The IP you entered is: ", ip_addr)
 type(ip_addr)
 
-resp = input("""\nSelect scan to execute:
+resp = str(input("""\nSelect scan to execute:
                 1) SYN ACK Scan
                 2) UDP Scan
                 3) Aggressive Scan
-                4) Quit\n""")
+                4) Quit\n"""))
 print("You have selected option: ", resp)
 
-start_port = input("Enter start port: ")
-end_port = input ("Enter end port: ")
-range = f'{start_port}-{end_port}'
+if resp in ['1', '2', '3']:
+    start_port = input("Enter start port: ")
+    end_port = input ("Enter end port: ")
+    range = f'{start_port}-{end_port}'
 
 if resp == '1':
     print("Nmap Version: ", scanner.nmap_version())
