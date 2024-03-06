@@ -49,7 +49,8 @@ elif resp == '3':
     print(scanner.scaninfo())
     print("Ip Status: ", scanner[ip_addr].state())
     print(scanner[ip_addr].all_protocols())
-    print("Open Ports: ", scanner[ip_addr]['tcp'].keys())
+    for protocol in scanner[ip_addr].all_protocols():
+        print(f"Open Ports for {protocol.upper()}: ", scanner[ip_addr][protocol].keys())    
 elif resp == '4':
     print("Quitting..")
     exit()
