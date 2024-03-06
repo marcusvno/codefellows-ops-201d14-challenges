@@ -41,8 +41,11 @@ elif resp == '2':
     scanner.scan(ip_addr, range, '-v -sU')
     print(scanner.scaninfo())
     print("Ip Status: ", scanner[ip_addr].state())
-    print(scanner[ip_addr].all_protocols())
-    print("Open Ports: ", scanner[ip_addr]['udp'].keys())
+    if 'udp' in scanner[ip_addr].all_protocols():
+        print(scanner[ip_addr].all_protocols())
+        print("UDP Open Ports: ", scanner[ip_addr]['udp'].keys())
+    else:
+        print("No UDP ports found or UDP scan was blocked.")
 elif resp == '3':
     print("Nmap Version: ", scanner.nmap_version())
     scanner.scan(ip_addr, range, '-v -A -O -T4')
